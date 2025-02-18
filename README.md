@@ -12,12 +12,13 @@ Nepal, a country known for its stunning mountain landscapes, has numerous trekki
 trekking-route-planner/
 │
 ├── dataset/               # Contains all datasets
+│   ├── final/             # Finalized Data Files
 │   ├── raw/               # Raw data files
 │   └── processed/         # Processed data files
 │
 ├── main.py                # Main application script
 ├── notebook.py            # Experimental notebook-style script
-└── requirements.txt       # Project dependencies
+└── pyproject.toml         # Project dependencies
 ```
 
 ## Installation
@@ -44,7 +45,7 @@ trekking-route-planner/
 
 3. Install dependencies:
    ```bash
-   uv pip install -r requirements.txt
+      uv sync
    ```
 
 ## Usage
@@ -54,16 +55,12 @@ trekking-route-planner/
 The `main.py` script contains the primary functionality for processing and analyzing UV data:
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 ### Running Experiments
 
 The `notebook.py` file provides a Jupyter-like environment for experimentation:
-
-```bash
-python notebook.py
-```
 
 This script allows for interactive experimentation with different parameters and visualization techniques.
 
