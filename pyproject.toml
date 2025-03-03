@@ -7,8 +7,10 @@ requires-python = ">=3.13"
 dependencies = [
     "geopy>=2.4.1",
     "ipykernel>=6.29.5",
+    "matplotlib>=3.10.1",
     "pandas>=2.2.3",
     "requests>=2.32.3",
     "ruff>=0.9.6",
     "scikit-learn>=1.6.1",
+    "tqdm>=4.67.1",
 ]
