@@ -154,6 +154,38 @@ def dp_path(nodes, edges, start, end, max_days, weight=1e-5):
     return result if result else ([], 0, 0)
 
 
+# Remove this before submitting
+def write_results_to_csv(filename, results):
+    """
+    Write the path finding results to a CSV file.
+    Results should be a dictionary with algorithm names as keys and
+    (path, importance, altitude_change) tuples as values.
+    """
+    with open(filename, "w", newline="") as csvfile:
+        # Write header row
+        fieldnames = [
+            "algorithm",
+            "path",
+            "total_importance",
+            "total_altitude_change",
+            "path_length",
+        ]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        # Write results for each algorithm
+        for algorithm, (path, imp, alt) in results.items():
+            writer.writerow(
+                {
+                    "algorithm": algorithm,
+                    "path": ",".join(path),
+                    "total_importance": f"{imp:.4f}",
+                    "total_altitude_change": f"{alt:.2f}",
+                    "path_length": len(path),
+                }
+            )
+
+
 def main():
     nodes = load_nodes("dataset/nodes.csv")
     edges = load_edges("dataset/edges.csv", nodes)
@@ -162,20 +194,58 @@ def main():
     end = input("End node: ").strip()
     days = int(input("Number of days: "))
 
+    # Remove results before submitting
+    # Dictionary to store results
+    results = {}
+
     print("\nGreedy Approach:")
     path, imp, alt = greedy_path(nodes, edges, start, end, days)
+    results["greedy"] = (path, imp, alt)
     print(f"Path: {path}")
     print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
 
     print("\nDivide & Conquer Approach:")
     path, imp, alt = dac_path(nodes, edges, start, end, days)
+    results["divide_and_conquer"] = (path, imp, alt)
     print(f"Path: {path}")
     print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
 
     print("\nDynamic Programming Approach:")
     path, imp, alt = dp_path(nodes, edges, start, end, days)
+    results["dynamic_programming"] = (path, imp, alt)
     print(f"Path: {path}")
     print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
+
+    # Remove this before submitting
+
+    # Write results to CSV
+    output_filename = f"results_{start}_to_{end}_{days}days.csv"
+    write_results_to_csv(output_filename, results)
+    print(f"\nResults written to {output_filename}")
+
+    # Save the path data for plotting
+    path_data_filename = f"dataset/result/path_data_{start}_to_{end}_{days}days.csv"
+    with open(path_data_filename, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(
+            ["algorithm", "node", "latitude", "longitude", "altitude", "importance"]
+        )
+
+        for algorithm, (path, imp, alt) in results.items():
+            for node_name in path:
+                node_data = nodes[node_name]
+                writer.writerow(
+                    [
+                        algorithm,
+                        node_name,
+                        node_data["lat"],
+                        node_data["lon"],
+                        node_data["alt"],
+                        node_data["imp"],
+                    ]
+                )
+
+    print(f"Path data for plotting written to {path_data_filename}")
 
 
 if __name__ == "__main__":

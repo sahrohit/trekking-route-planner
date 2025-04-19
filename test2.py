@@ -1,5 +1,5 @@
 import math
-from typing import List, Tuple, Dict, Optional, Union
+from typing import List, Dict
 
 
 class TrekkingTrail:
