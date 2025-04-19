@@ -1,0 +1,1380 @@
+{
+  "nodes": [
+    {
+      "name": "Arniko Highway",
+      "latitude": 27.7973506015514,
+      "longitude": 85.8960040971853,
+      "altitude": 942
+    },
+    {
+      "name": "Bahrabise - Karthali - Dolangsa Road",
+      "latitude": 27.8272412,
+      "longitude": 86.0077633,
+      "altitude": 3427
+    },
+    {
+      "name": "Bahrabise - Budepa Road",
+      "latitude": 27.7830806,
+      "longitude": 85.9451403,
+      "altitude": 1139
+    },
+    {
+      "name": "Bahrabise - Budepa - Ghorthali Road",
+      "latitude": 27.7817660808765,
+      "longitude": 85.9629358145002,
+      "altitude": 1297
+    },
+    {
+      "name": "Chyanarsa",
+      "latitude": 27.7950276,
+      "longitude": 85.9884118,
+      "altitude": 2018
+    },
+    {
+      "name": "Bigu-07",
+      "latitude": 27.8402896,
+      "longitude": 86.0528997345248,
+      "altitude": 3434
+    },
+    {
+      "name": "Bigu - Choitang - Gaglate Road",
+      "latitude": 27.8380858680536,
+      "longitude": 86.0693342012928,
+      "altitude": 2131
+    },
+    {
+      "name": "Singati-Bigu Road",
+      "latitude": 27.7599929,
+      "longitude": 86.1481369,
+      "altitude": 1062
+    },
+    {
+      "name": "Chilankha-Syakhu-Alampu-Bigu Road",
+      "latitude": 27.7945143717388,
+      "longitude": 86.1217871731345,
+      "altitude": 1688
+    },
+    {
+      "name": "Shri Choing Choling Gumba",
+      "latitude": 27.8723571,
+      "longitude": 86.23389925,
+      "altitude": 1657
+    },
+    {
+      "name": "Bamboo Bhatti",
+      "latitude": 27.8862405,
+      "longitude": 86.2446445,
+      "altitude": 2750
+    },
+    {
+      "name": "Surmuche Hotel",
+      "latitude": 27.8878572,
+      "longitude": 86.2583097,
+      "altitude": 2719
+    },
+    {
+      "name": "Kyalche",
+      "latitude": 27.9009832,
+      "longitude": 86.2752002,
+      "altitude": 3196
+    },
+    {
+      "name": "Dongang",
+      "latitude": 27.9034258,
+      "longitude": 86.288103,
+      "altitude": 3145
+    },
+    {
+      "name": "Lodge",
+      "latitude": 27.9034379,
+      "longitude": 86.3265257,
+      "altitude": 3359
+    },
+    {
+      "name": "Sumda Mahades Hindu shrine",
+      "latitude": 27.9031544,
+      "longitude": 86.3420865,
+      "altitude": 3548
+    },
+    {
+      "name": "Ramding",
+      "latitude": 27.9070726,
+      "longitude": 86.3634476,
+      "altitude": 3614
+    },
+    {
+      "name": "\u0930\u094b\u0932\u094d\u0935\u093e\u0932\u093f\u0919 \u0938\u093e\u0919\u094d\u0917 \u0915\u094d\u0937\u094d\u092f\u094b\u0932\u093f\u0919 \u0917\u0941\u092e\u094d\u092c\u093e",
+      "latitude": 27.9049642,
+      "longitude": 86.3682367,
+      "altitude": 3706
+    },
+    {
+      "name": "historic Beding Gompa, Guru Rinpche cave ",
+      "latitude": 27.9050483,
+      "longitude": 86.3759091,
+      "altitude": 3956
+    },
+    {
+      "name": "Beding",
+      "latitude": 27.9028109,
+      "longitude": 86.3755363,
+      "altitude": 3788
+    },
+    {
+      "name": "Gaurishankar-09",
+      "latitude": 27.8864349,
+      "longitude": 86.3990892331761,
+      "altitude": 5176
+    },
+    {
+      "name": "Josef Phurba Lodge",
+      "latitude": 27.8812452,
+      "longitude": 86.4260522,
+      "altitude": 4254
+    },
+    {
+      "name": "Na",
+      "latitude": 27.8814863,
+      "longitude": 86.42678,
+      "altitude": 4298
+    },
+    {
+      "name": "Chukyima",
+      "latitude": 27.8590363,
+      "longitude": 86.4725451,
+      "altitude": 4909
+    },
+    {
+      "name": "Gaurishankar-01",
+      "latitude": 27.6841312,
+      "longitude": 86.1775733379717,
+      "altitude": 2343
+    },
+    {
+      "name": "Charikot-Lamabagar Road",
+      "latitude": 27.8333721,
+      "longitude": 86.2207031,
+      "altitude": 1306
+    },
+    {
+      "name": "NH28",
+      "latitude": 27.9157508,
+      "longitude": 86.2083782,
+      "altitude": 2002
+    },
+    {
+      "name": "Charikot-Singati-Lamabagar Road",
+      "latitude": 27.7269111231476,
+      "longitude": 86.1572265258272,
+      "altitude": 1093
+    },
+    {
+      "name": "Shree kaileshwori PRA V",
+      "latitude": 27.8170847,
+      "longitude": 86.1264663,
+      "altitude": 1933
+    },
+    {
+      "name": "Shree Himalaya Ma V",
+      "latitude": 27.8055801,
+      "longitude": 86.1219368543785,
+      "altitude": 1798
+    },
+    {
+      "name": "Shree Chirkun Than Namuna PRA V",
+      "latitude": 27.7993319,
+      "longitude": 86.1219555,
+      "altitude": 1714
+    },
+    {
+      "name": "Singati - Laduk Road",
+      "latitude": 27.7682284110134,
+      "longitude": 86.1678011440656,
+      "altitude": 2033
+    },
+    {
+      "name": "Singati-Bulung Road",
+      "latitude": 27.7587179952823,
+      "longitude": 86.1699496718709,
+      "altitude": 1772
+    },
+    {
+      "name": "Shree Jana Kalyan PRA V",
+      "latitude": 27.7813077,
+      "longitude": 86.1889292,
+      "altitude": 1774
+    },
+    {
+      "name": "Bigu-03",
+      "latitude": 27.79481575,
+      "longitude": 86.1715869024602,
+      "altitude": 1554
+    },
+    {
+      "name": "Orang",
+      "latitude": 27.80616,
+      "longitude": 86.19669,
+      "altitude": 1851
+    },
+    {
+      "name": "Tashi Labtsa Camp",
+      "latitude": 27.8473663,
+      "longitude": 86.5527527,
+      "altitude": 5726
+    },
+    {
+      "name": "F202",
+      "latitude": 27.6019509170202,
+      "longitude": 86.3066269872054,
+      "altitude": 2183
+    },
+    {
+      "name": "21DR017",
+      "latitude": 27.6293501954485,
+      "longitude": 86.3076153300625,
+      "altitude": 1841
+    },
+    {
+      "name": "Shree Valepokhari Pra Vi",
+      "latitude": 27.6547295,
+      "longitude": 86.3244235132115,
+      "altitude": 1937
+    },
+    {
+      "name": "Degunsha",
+      "latitude": 27.6706092,
+      "longitude": 86.3346058,
+      "altitude": 2151
+    },
+    {
+      "name": "\u0916\u0939\u0930\u0947",
+      "latitude": 27.6806518,
+      "longitude": 86.3389667,
+      "altitude": 2288
+    },
+    {
+      "name": "Jiri-01",
+      "latitude": 27.78668815,
+      "longitude": 86.3498406132568,
+      "altitude": 4602
+    },
+    {
+      "name": "Tershe",
+      "latitude": 27.7190715,
+      "longitude": 86.411384,
+      "altitude": 4303
+    },
+    {
+      "name": "Khola Kharka",
+      "latitude": 27.742438,
+      "longitude": 86.4478374,
+      "altitude": 4167
+    },
+    {
+      "name": "Umakunda-01",
+      "latitude": 27.70061845,
+      "longitude": 86.4728743721854,
+      "altitude": 2240
+    },
+    {
+      "name": "Ngeju Kharka",
+      "latitude": 27.7334185,
+      "longitude": 86.5166062,
+      "altitude": 3450
+    },
+    {
+      "name": "\u0932\u094d\u0939\u093e\u091b\u0947\u0935\u093e\u0930",
+      "latitude": 27.6872829,
+      "longitude": 86.4694059,
+      "altitude": 2320
+    },
+    {
+      "name": "Himalaya Pra V",
+      "latitude": 27.68067255,
+      "longitude": 86.4590789019323,
+      "altitude": 2647
+    },
+    {
+      "name": "Kyama",
+      "latitude": 27.6285865456118,
+      "longitude": 86.4294067283564,
+      "altitude": 2009
+    },
+    {
+      "name": "21DR018",
+      "latitude": 27.6096298209008,
+      "longitude": 86.4103260156803,
+      "altitude": 2437
+    },
+    {
+      "name": "Pabitra Dristi Numbur Himalayan Pra V",
+      "latitude": 27.6137887,
+      "longitude": 86.4112569398728,
+      "altitude": 2564
+    },
+    {
+      "name": "Gumdel",
+      "latitude": 27.6166837,
+      "longitude": 86.4234251,
+      "altitude": 1832
+    },
+    {
+      "name": "Jadibuti Ni Ma V",
+      "latitude": 27.5821493,
+      "longitude": 86.3811623442286,
+      "altitude": 2313
+    },
+    {
+      "name": "Shivalaya-Bhandar",
+      "latitude": 27.5879485,
+      "longitude": 86.3287785,
+      "altitude": 2653
+    },
+    {
+      "name": "23DR015",
+      "latitude": 27.9174823,
+      "longitude": 85.7819796,
+      "altitude": 1610
+    },
+    {
+      "name": "Kalinchok Footpath",
+      "latitude": 27.7555758,
+      "longitude": 86.0349212,
+      "altitude": 3625
+    },
+    {
+      "name": "Tripurasundari-01",
+      "latitude": 27.7732586,
+      "longitude": 85.9967173738137,
+      "altitude": 3461
+    },
+    {
+      "name": "Kalinchok-01",
+      "latitude": 27.7872548,
+      "longitude": 86.0625757388351,
+      "altitude": 3590
+    },
+    {
+      "name": "Barhabise-01",
+      "latitude": 27.8050369,
+      "longitude": 86.003222536537,
+      "altitude": 3603
+    },
+    {
+      "name": "Bhotekoshi-05",
+      "latitude": 27.84887705,
+      "longitude": 85.939705738014,
+      "altitude": 2838
+    },
+    {
+      "name": "Pokhare",
+      "latitude": 27.8009472,
+      "longitude": 85.9474848,
+      "altitude": 3230
+    },
+    {
+      "name": "Pokhari",
+      "latitude": 27.8656578,
+      "longitude": 85.9334201,
+      "altitude": 2779
+    },
+    {
+      "name": "NH34",
+      "latitude": 27.9243005,
+      "longitude": 85.9514255,
+      "altitude": 2232
+    },
+    {
+      "name": "Jiri Hospital",
+      "latitude": 27.6342203,
+      "longitude": 86.2318313772541,
+      "altitude": 1888
+    },
+    {
+      "name": "Jiri-Shivalaya",
+      "latitude": 27.6198705162875,
+      "longitude": 86.251629058111,
+      "altitude": 2386
+    },
+    {
+      "name": "Jiri-02",
+      "latitude": 27.6670333,
+      "longitude": 86.2490316,
+      "altitude": 3172
+    },
+    {
+      "name": "chautara",
+      "latitude": 27.6735234,
+      "longitude": 86.2525758,
+      "altitude": 3477
+    },
+    {
+      "name": "Gaurishankar-05",
+      "latitude": 27.72170835,
+      "longitude": 86.2674203170994,
+      "altitude": 3585
+    },
+    {
+      "name": "Soktuma",
+      "latitude": 27.72170835,
+      "longitude": 86.2674203170994,
+      "altitude": 3591
+    },
+    {
+      "name": "Gaurishankar-07",
+      "latitude": 27.78668815,
+      "longitude": 86.3498406132568,
+      "altitude": 4244
+    },
+    {
+      "name": "Gaurishankar-08",
+      "latitude": 27.8864349,
+      "longitude": 86.3990892331761,
+      "altitude": 5241
+    },
+    {
+      "name": "Yalung Ri Base Camp",
+      "latitude": 27.85667695,
+      "longitude": 86.432428,
+      "altitude": 4885
+    },
+    {
+      "name": "F106",
+      "latitude": 27.9240733,
+      "longitude": 86.2123442,
+      "altitude": 1995
+    },
+    {
+      "name": "Tamakoshi Hydroelectric",
+      "latitude": 27.9236448,
+      "longitude": 86.2127918,
+      "altitude": 1993
+    },
+    {
+      "name": "Buddhist stupa",
+      "latitude": 27.96488295,
+      "longitude": 86.2213818501269,
+      "altitude": 2251
+    },
+    {
+      "name": "Bigu-01",
+      "latitude": 27.9950545,
+      "longitude": 86.1593897722516,
+      "altitude": 4096
+    },
+    {
+      "name": "Shelters",
+      "latitude": 28.0696847,
+      "longitude": 86.1629716852219,
+      "altitude": 3602
+    },
+    {
+      "name": "Lapchi",
+      "latitude": 28.1203469,
+      "longitude": 86.1645254,
+      "altitude": 3925
+    },
+    {
+      "name": "Ch\u00f6ra Gepel Ling",
+      "latitude": 28.1203469,
+      "longitude": 86.1645254,
+      "altitude": 3784
+    },
+    {
+      "name": "Nepal- China Boundary Pillar No. 58",
+      "latitude": 28.1345685,
+      "longitude": 86.201025,
+      "altitude": 4073
+    },
+    {
+      "name": "Nepal- China Boundary Pillar No. 59",
+      "latitude": 28.1341242,
+      "longitude": 86.2037859,
+      "altitude": 4133
+    },
+    {
+      "name": "Nepal- China Boundary Pillar No. 56",
+      "latitude": 28.1315322,
+      "longitude": 86.1535985,
+      "altitude": 4081
+    },
+    {
+      "name": "Phakchue kharka",
+      "latitude": 27.9779834,
+      "longitude": 85.8296296,
+      "altitude": 1843
+    },
+    {
+      "name": "Kothe Binjel Dhuskot sadak",
+      "latitude": 27.7511821,
+      "longitude": 85.7971337,
+      "altitude": 1062
+    },
+    {
+      "name": "23DR013",
+      "latitude": 27.7784333685309,
+      "longitude": 85.7654364624387,
+      "altitude": 778
+    },
+    {
+      "name": "Kipche",
+      "latitude": 27.8670053,
+      "longitude": 85.7444708,
+      "altitude": 1127
+    },
+    {
+      "name": "Jugal Pra V",
+      "latitude": 27.8965685,
+      "longitude": 85.75841985,
+      "altitude": 1162
+    },
+    {
+      "name": "23DR018",
+      "latitude": 27.8944155,
+      "longitude": 85.7661044,
+      "altitude": 1429
+    },
+    {
+      "name": "Kalidevi Ma Vi",
+      "latitude": 27.8958867,
+      "longitude": 85.7786181593136,
+      "altitude": 1772
+    },
+    {
+      "name": "Gautam Pra V",
+      "latitude": 27.911273,
+      "longitude": 85.7787156560098,
+      "altitude": 1243
+    },
+    {
+      "name": "Streusiedlung",
+      "latitude": 27.9418178,
+      "longitude": 85.8004524,
+      "altitude": 1991
+    },
+    {
+      "name": "Kyablunthang Ni Ma V",
+      "latitude": 27.9633159,
+      "longitude": 85.8026615,
+      "altitude": 1878
+    },
+    {
+      "name": "Gamph\u0101th\u0101ng",
+      "latitude": 27.9641043,
+      "longitude": 85.8045692,
+      "altitude": 2217
+    },
+    {
+      "name": "23DR027",
+      "latitude": 27.8917883,
+      "longitude": 85.8771539,
+      "altitude": 2131
+    },
+    {
+      "name": "Gumtang-Bhairabkunda Road",
+      "latitude": 27.8566153277613,
+      "longitude": 85.859400716802,
+      "altitude": 1870
+    },
+    {
+      "name": "Shree Kirateshwor Primary School",
+      "latitude": 27.82944135,
+      "longitude": 85.8312145,
+      "altitude": 2260
+    },
+    {
+      "name": "Patichaur",
+      "latitude": 27.8319514,
+      "longitude": 85.8125501,
+      "altitude": 2015
+    },
+    {
+      "name": "Shree Jugal Lower Secondary School",
+      "latitude": 27.8341554,
+      "longitude": 85.8086500426718,
+      "altitude": 1924
+    },
+    {
+      "name": "23DR019",
+      "latitude": 27.8198589,
+      "longitude": 85.7918563,
+      "altitude": 1682
+    },
+    {
+      "name": "Bhairabkunda Road",
+      "latitude": 27.92936165,
+      "longitude": 85.8697019836549,
+      "altitude": 3994
+    },
+    {
+      "name": "Kyansing",
+      "latitude": 27.9713264,
+      "longitude": 85.8221074,
+      "altitude": 2752
+    },
+    {
+      "name": "Jugal Himal Trek Route",
+      "latitude": 27.9779834,
+      "longitude": 85.8296296,
+      "altitude": 2340
+    },
+    {
+      "name": "Tempathang",
+      "latitude": 28.0197239,
+      "longitude": 85.7843038,
+      "altitude": 2175
+    },
+    {
+      "name": "Jugal Hima Trek Route",
+      "latitude": 28.0202151943382,
+      "longitude": 85.7828763954676,
+      "altitude": 2237
+    },
+    {
+      "name": "Araniko Rajmarg",
+      "latitude": 27.7801458,
+      "longitude": 85.8922613,
+      "altitude": 884
+    },
+    {
+      "name": "Bagaam",
+      "latitude": 27.9283466,
+      "longitude": 85.8992694,
+      "altitude": 2919
+    },
+    {
+      "name": "Tasithan",
+      "latitude": 27.9283466,
+      "longitude": 85.8992694,
+      "altitude": 3070
+    },
+    {
+      "name": "Bhotekoshi-03",
+      "latitude": 27.92936165,
+      "longitude": 85.8697019836549,
+      "altitude": 3560
+    },
+    {
+      "name": "Bhotekoshi-01",
+      "latitude": 27.92936165,
+      "longitude": 85.8697019836549,
+      "altitude": 3859
+    },
+    {
+      "name": "Bhairab kunda",
+      "latitude": 27.9897573,
+      "longitude": 85.8792115,
+      "altitude": 4252
+    },
+    {
+      "name": "Bhotekoshi-04",
+      "latitude": 27.88774295,
+      "longitude": 85.9808261280268,
+      "altitude": 2963
+    },
+    {
+      "name": "Namtan",
+      "latitude": 27.9258527,
+      "longitude": 85.9588764,
+      "altitude": 2974
+    }
+  ],
+  "edges": [
+    {
+      "source": "Arniko Highway",
+      "target": "Bahrabise - Karthali - Dolangsa Road",
+      "distance": 2377.6076696556725,
+      "altitude_diff": 2485
+    },
+    {
+      "source": "Arniko Highway",
+      "target": "Araniko Rajmarg",
+      "distance": 132.16905228293618,
+      "altitude_diff": 58
+    },
+    {
+      "source": "Arniko Highway",
+      "target": "NH34",
+      "distance": 866.572608112694,
+      "altitude_diff": 1290
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Bahrabise - Budepa Road",
+      "distance": 866.7373761366235,
+      "altitude_diff": 2288
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Chyanarsa",
+      "distance": 2053.0262179818824,
+      "altitude_diff": 1409
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Bigu - Choitang - Gaglate Road",
+      "distance": 215.82499615166716,
+      "altitude_diff": 1296
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Barhabise-01",
+      "distance": 385.3614907526299,
+      "altitude_diff": 176
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Pokhare",
+      "distance": 653.6782747695044,
+      "altitude_diff": 197
+    },
+    {
+      "source": "Bahrabise - Karthali - Dolangsa Road",
+      "target": "Bhotekoshi-04",
+      "distance": 365.1696375166301,
+      "altitude_diff": 464
+    },
+    {
+      "source": "Bahrabise - Budepa Road",
+      "target": "Bahrabise - Budepa - Ghorthali Road",
+      "distance": 1720.9857026715692,
+      "altitude_diff": 158
+    },
+    {
+      "source": "Bahrabise - Budepa - Ghorthali Road",
+      "target": "Chyanarsa",
+      "distance": 1758.272352381164,
+      "altitude_diff": 721
+    },
+    {
+      "source": "Bigu - Choitang - Gaglate Road",
+      "target": "Singati-Bigu Road",
+      "distance": 1427.3206550894306,
+      "altitude_diff": 1069
+    },
+    {
+      "source": "Singati-Bigu Road",
+      "target": "Chilankha-Syakhu-Alampu-Bigu Road",
+      "distance": 672.2604798314884,
+      "altitude_diff": 626
+    },
+    {
+      "source": "Singati-Bigu Road",
+      "target": "Singati - Laduk Road",
+      "distance": 1151.9745822515554,
+      "altitude_diff": 971
+    },
+    {
+      "source": "Singati-Bigu Road",
+      "target": "Charikot-Lamabagar Road",
+      "distance": 666.5775407361492,
+      "altitude_diff": 244
+    },
+    {
+      "source": "Chilankha-Syakhu-Alampu-Bigu Road",
+      "target": "Shree kaileshwori PRA V",
+      "distance": 297.1535989879013,
+      "altitude_diff": 245
+    },
+    {
+      "source": "Chilankha-Syakhu-Alampu-Bigu Road",
+      "target": "Shree Chirkun Than Namuna PRA V",
+      "distance": 745.2656999688045,
+      "altitude_diff": 26
+    },
+    {
+      "source": "Shri Choing Choling Gumba",
+      "target": "Bamboo Bhatti",
+      "distance": 1189.9395814208108,
+      "altitude_diff": 1093
+    },
+    {
+      "source": "Shri Choing Choling Gumba",
+      "target": "NH28",
+      "distance": 98.91904413619099,
+      "altitude_diff": 345
+    },
+    {
+      "source": "Bamboo Bhatti",
+      "target": "Surmuche Hotel",
+      "distance": 1762.6552967765685,
+      "altitude_diff": 31
+    },
+    {
+      "source": "Surmuche Hotel",
+      "target": "Kyalche",
+      "distance": 1913.9202770216893,
+      "altitude_diff": 477
+    },
+    {
+      "source": "Kyalche",
+      "target": "Dongang",
+      "distance": 1438.279085947359,
+      "altitude_diff": 51
+    },
+    {
+      "source": "Dongang",
+      "target": "Lodge",
+      "distance": 2186.9376307873295,
+      "altitude_diff": 214
+    },
+    {
+      "source": "Lodge",
+      "target": "Sumda Mahades Hindu shrine",
+      "distance": 950.339086257298,
+      "altitude_diff": 189
+    },
+    {
+      "source": "Sumda Mahades Hindu shrine",
+      "target": "Ramding",
+      "distance": 1847.1137906655954,
+      "altitude_diff": 66
+    },
+    {
+      "source": "Ramding",
+      "target": "\u0930\u094b\u0932\u094d\u0935\u093e\u0932\u093f\u0919 \u0938\u093e\u0919\u094d\u0917 \u0915\u094d\u0937\u094d\u092f\u094b\u0932\u093f\u0919 \u0917\u0941\u092e\u094d\u092c\u093e",
+      "distance": 1182.8090927186688,
+      "altitude_diff": 92
+    },
+    {
+      "source": "\u0930\u094b\u0932\u094d\u0935\u093e\u0932\u093f\u0919 \u0938\u093e\u0919\u094d\u0917 \u0915\u094d\u0937\u094d\u092f\u094b\u0932\u093f\u0919 \u0917\u0941\u092e\u094d\u092c\u093e",
+      "target": "historic Beding Gompa, Guru Rinpche cave ",
+      "distance": 788.9531448730784,
+      "altitude_diff": 250
+    },
+    {
+      "source": "historic Beding Gompa, Guru Rinpche cave ",
+      "target": "Beding",
+      "distance": 1167.8090252602326,
+      "altitude_diff": 168
+    },
+    {
+      "source": "Beding",
+      "target": "Gaurishankar-09",
+      "distance": 1428.654429838826,
+      "altitude_diff": 1388
+    },
+    {
+      "source": "Gaurishankar-09",
+      "target": "Josef Phurba Lodge",
+      "distance": 1965.9722866224658,
+      "altitude_diff": 922
+    },
+    {
+      "source": "Josef Phurba Lodge",
+      "target": "Na",
+      "distance": 1862.378011672589,
+      "altitude_diff": 44
+    },
+    {
+      "source": "Na",
+      "target": "Chukyima",
+      "distance": 735.5919276342322,
+      "altitude_diff": 611
+    },
+    {
+      "source": "Na",
+      "target": "Yalung Ri Base Camp",
+      "distance": 195.31614131201525,
+      "altitude_diff": 587
+    },
+    {
+      "source": "Chukyima",
+      "target": "Tashi Labtsa Camp",
+      "distance": 1958.2224351780708,
+      "altitude_diff": 817
+    },
+    {
+      "source": "Gaurishankar-01",
+      "target": "Charikot-Singati-Lamabagar Road",
+      "distance": 692.8204959157147,
+      "altitude_diff": 1250
+    },
+    {
+      "source": "Charikot-Lamabagar Road",
+      "target": "NH28",
+      "distance": 1103.5435985495742,
+      "altitude_diff": 696
+    },
+    {
+      "source": "Charikot-Lamabagar Road",
+      "target": "Charikot-Singati-Lamabagar Road",
+      "distance": 342.0511353283282,
+      "altitude_diff": 213
+    },
+    {
+      "source": "Charikot-Lamabagar Road",
+      "target": "Singati-Bulung Road",
+      "distance": 998.114075570486,
+      "altitude_diff": 466
+    },
+    {
+      "source": "NH28",
+      "target": "Shree kaileshwori PRA V",
+      "distance": 242.90014972249057,
+      "altitude_diff": 69
+    },
+    {
+      "source": "NH28",
+      "target": "Orang",
+      "distance": 4238.703553636245,
+      "altitude_diff": 151
+    },
+    {
+      "source": "NH28",
+      "target": "Tamakoshi Hydroelectric",
+      "distance": 891.8234679930468,
+      "altitude_diff": 9
+    },
+    {
+      "source": "Shree kaileshwori PRA V",
+      "target": "Shree Himalaya Ma V",
+      "distance": 719.682633890063,
+      "altitude_diff": 135
+    },
+    {
+      "source": "Shree Himalaya Ma V",
+      "target": "Shree Chirkun Than Namuna PRA V",
+      "distance": 556.0616288469084,
+      "altitude_diff": 84
+    },
+    {
+      "source": "Singati - Laduk Road",
+      "target": "Singati-Bulung Road",
+      "distance": 677.9434758663203,
+      "altitude_diff": 261
+    },
+    {
+      "source": "Singati-Bulung Road",
+      "target": "Shree Jana Kalyan PRA V",
+      "distance": 1381.171105152709,
+      "altitude_diff": 2
+    },
+    {
+      "source": "Shree Jana Kalyan PRA V",
+      "target": "Orang",
+      "distance": 2348.9966951370143,
+      "altitude_diff": 77
+    },
+    {
+      "source": "F202",
+      "target": "21DR017",
+      "distance": 1561.762995650132,
+      "altitude_diff": 342
+    },
+    {
+      "source": "F202",
+      "target": "Shivalaya-Bhandar",
+      "distance": 802.8156285424343,
+      "altitude_diff": 470
+    },
+    {
+      "source": "F202",
+      "target": "Jiri-Shivalaya",
+      "distance": 949.0908448061102,
+      "altitude_diff": 203
+    },
+    {
+      "source": "21DR017",
+      "target": "Shree Valepokhari Pra Vi",
+      "distance": 2895.3820796423915,
+      "altitude_diff": 96
+    },
+    {
+      "source": "Shree Valepokhari Pra Vi",
+      "target": "Degunsha",
+      "distance": 2149.206598943131,
+      "altitude_diff": 214
+    },
+    {
+      "source": "Degunsha",
+      "target": "\u0916\u0939\u0930\u0947",
+      "distance": 1968.3939252760724,
+      "altitude_diff": 137
+    },
+    {
+      "source": "\u0916\u0939\u0930\u0947",
+      "target": "Jiri-01",
+      "distance": 2193.4829563036683,
+      "altitude_diff": 2314
+    },
+    {
+      "source": "Jiri-01",
+      "target": "Tershe",
+      "distance": 929.8837176554109,
+      "altitude_diff": 299
+    },
+    {
+      "source": "Jiri-01",
+      "target": "Soktuma",
+      "distance": 457.3637392101227,
+      "altitude_diff": 1011
+    },
+    {
+      "source": "Jiri-01",
+      "target": "Gaurishankar-07",
+      "distance": 284.18930702167114,
+      "altitude_diff": 358
+    },
+    {
+      "source": "Tershe",
+      "target": "Khola Kharka",
+      "distance": 1056.6495347296327,
+      "altitude_diff": 136
+    },
+    {
+      "source": "Khola Kharka",
+      "target": "Ngeju Kharka",
+      "distance": 1044.4120013965326,
+      "altitude_diff": 717
+    },
+    {
+      "source": "Umakunda-01",
+      "target": "Ngeju Kharka",
+      "distance": 1121.294877222894,
+      "altitude_diff": 1210
+    },
+    {
+      "source": "Umakunda-01",
+      "target": "\u0932\u094d\u0939\u093e\u091b\u0947\u0935\u093e\u0930",
+      "distance": 701.4528445908916,
+      "altitude_diff": 80
+    },
+    {
+      "source": "\u0932\u094d\u0939\u093e\u091b\u0947\u0935\u093e\u0930",
+      "target": "Himalaya Pra V",
+      "distance": 1645.5008252615996,
+      "altitude_diff": 327
+    },
+    {
+      "source": "Himalaya Pra V",
+      "target": "Kyama",
+      "distance": 1150.3557981946915,
+      "altitude_diff": 638
+    },
+    {
+      "source": "Kyama",
+      "target": "Gumdel",
+      "distance": 823.6732161156901,
+      "altitude_diff": 177
+    },
+    {
+      "source": "21DR018",
+      "target": "Gumdel",
+      "distance": 555.0523776876256,
+      "altitude_diff": 605
+    },
+    {
+      "source": "21DR018",
+      "target": "Pabitra Dristi Numbur Himalayan Pra V",
+      "distance": 545.3121845576175,
+      "altitude_diff": 127
+    },
+    {
+      "source": "21DR018",
+      "target": "Jadibuti Ni Ma V",
+      "distance": 660.3745218391774,
+      "altitude_diff": 124
+    },
+    {
+      "source": "Jadibuti Ni Ma V",
+      "target": "Shivalaya-Bhandar",
+      "distance": 657.0071089693063,
+      "altitude_diff": 340
+    },
+    {
+      "source": "23DR015",
+      "target": "23DR013",
+      "distance": 921.9189439410559,
+      "altitude_diff": 832
+    },
+    {
+      "source": "23DR015",
+      "target": "Kipche",
+      "distance": 677.1634847724405,
+      "altitude_diff": 483
+    },
+    {
+      "source": "23DR015",
+      "target": "Jugal Pra V",
+      "distance": 948.4214189234747,
+      "altitude_diff": 448
+    },
+    {
+      "source": "23DR015",
+      "target": "23DR018",
+      "distance": 767.3079245663483,
+      "altitude_diff": 181
+    },
+    {
+      "source": "23DR015",
+      "target": "Gautam Pra V",
+      "distance": 596.79767782511,
+      "altitude_diff": 367
+    },
+    {
+      "source": "23DR015",
+      "target": "Streusiedlung",
+      "distance": 391.161214147893,
+      "altitude_diff": 381
+    },
+    {
+      "source": "23DR015",
+      "target": "23DR019",
+      "distance": 512.2720828334045,
+      "altitude_diff": 72
+    },
+    {
+      "source": "Kalinchok Footpath",
+      "target": "Tripurasundari-01",
+      "distance": 715.0373212911311,
+      "altitude_diff": 164
+    },
+    {
+      "source": "Kalinchok Footpath",
+      "target": "Barhabise-01",
+      "distance": 863.0218755350204,
+      "altitude_diff": 22
+    },
+    {
+      "source": "Bhotekoshi-05",
+      "target": "Pokhare",
+      "distance": 1023.4696082305411,
+      "altitude_diff": 392
+    },
+    {
+      "source": "Bhotekoshi-05",
+      "target": "NH34",
+      "distance": 790.4922319270449,
+      "altitude_diff": 606
+    },
+    {
+      "source": "NH34",
+      "target": "Kothe Binjel Dhuskot sadak",
+      "distance": 851.8377939300672,
+      "altitude_diff": 1170
+    },
+    {
+      "source": "NH34",
+      "target": "Araniko Rajmarg",
+      "distance": 800.8267978905827,
+      "altitude_diff": 1348
+    },
+    {
+      "source": "NH34",
+      "target": "23DR027",
+      "distance": 1005.6624948128912,
+      "altitude_diff": 101
+    },
+    {
+      "source": "NH34",
+      "target": "Tasithan",
+      "distance": 443.6218221637382,
+      "altitude_diff": 838
+    },
+    {
+      "source": "NH34",
+      "target": "Bhotekoshi-03",
+      "distance": 462.86155025523254,
+      "altitude_diff": 1328
+    },
+    {
+      "source": "NH34",
+      "target": "Namtan",
+      "distance": 243.9555818818366,
+      "altitude_diff": 742
+    },
+    {
+      "source": "Jiri Hospital",
+      "target": "Jiri-Shivalaya",
+      "distance": 552.0206070289992,
+      "altitude_diff": 498
+    },
+    {
+      "source": "Jiri Hospital",
+      "target": "Jiri-02",
+      "distance": 718.035622293227,
+      "altitude_diff": 1284
+    },
+    {
+      "source": "Jiri-02",
+      "target": "chautara",
+      "distance": 693.724146958176,
+      "altitude_diff": 305
+    },
+    {
+      "source": "chautara",
+      "target": "Gaurishankar-05",
+      "distance": 267.91102520592943,
+      "altitude_diff": 108
+    },
+    {
+      "source": "Gaurishankar-05",
+      "target": "Soktuma",
+      "distance": 240.43566548108643,
+      "altitude_diff": 6
+    },
+    {
+      "source": "Gaurishankar-07",
+      "target": "Yalung Ri Base Camp",
+      "distance": 420.1347761221606,
+      "altitude_diff": 641
+    },
+    {
+      "source": "F106",
+      "target": "Tamakoshi Hydroelectric",
+      "distance": 413.3127123460689,
+      "altitude_diff": 2
+    },
+    {
+      "source": "F106",
+      "target": "Buddhist stupa",
+      "distance": 618.266507609217,
+      "altitude_diff": 256
+    },
+    {
+      "source": "Buddhist stupa",
+      "target": "Bigu-01",
+      "distance": 716.4330664499859,
+      "altitude_diff": 1845
+    },
+    {
+      "source": "Bigu-01",
+      "target": "Shelters",
+      "distance": 490.1420989367413,
+      "altitude_diff": 494
+    },
+    {
+      "source": "Bigu-01",
+      "target": "Lapchi",
+      "distance": 412.4721023224124,
+      "altitude_diff": 171
+    },
+    {
+      "source": "Lapchi",
+      "target": "Nepal- China Boundary Pillar No. 58",
+      "distance": 676.7421708850098,
+      "altitude_diff": 148
+    },
+    {
+      "source": "Lapchi",
+      "target": "Nepal- China Boundary Pillar No. 56",
+      "distance": 514.87366346615,
+      "altitude_diff": 156
+    },
+    {
+      "source": "Nepal- China Boundary Pillar No. 58",
+      "target": "Nepal- China Boundary Pillar No. 59",
+      "distance": 777.7300457951319,
+      "altitude_diff": 60
+    },
+    {
+      "source": "Phakchue kharka",
+      "target": "Kyansing",
+      "distance": 306.2689524812386,
+      "altitude_diff": 909
+    },
+    {
+      "source": "Kothe Binjel Dhuskot sadak",
+      "target": "23DR013",
+      "distance": 572.5861005277276,
+      "altitude_diff": 284
+    },
+    {
+      "source": "23DR018",
+      "target": "Kalidevi Ma Vi",
+      "distance": 810.4338951472714,
+      "altitude_diff": 343
+    },
+    {
+      "source": "Streusiedlung",
+      "target": "Kyablunthang Ni Ma V",
+      "distance": 765.5855490306956,
+      "altitude_diff": 113
+    },
+    {
+      "source": "Kyablunthang Ni Ma V",
+      "target": "Gamph\u0101th\u0101ng",
+      "distance": 744.3621429015489,
+      "altitude_diff": 339
+    },
+    {
+      "source": "Gamph\u0101th\u0101ng",
+      "target": "Kyansing",
+      "distance": 462.0364212227253,
+      "altitude_diff": 535
+    },
+    {
+      "source": "Gamph\u0101th\u0101ng",
+      "target": "Jugal Hima Trek Route",
+      "distance": 513.4623565296861,
+      "altitude_diff": 20
+    },
+    {
+      "source": "23DR027",
+      "target": "Gumtang-Bhairabkunda Road",
+      "distance": 989.5589466811009,
+      "altitude_diff": 261
+    },
+    {
+      "source": "23DR027",
+      "target": "Bagaam",
+      "distance": 526.3734941235305,
+      "altitude_diff": 788
+    },
+    {
+      "source": "Gumtang-Bhairabkunda Road",
+      "target": "Shree Kirateshwor Primary School",
+      "distance": 790.4850508703546,
+      "altitude_diff": 390
+    },
+    {
+      "source": "Shree Kirateshwor Primary School",
+      "target": "Patichaur",
+      "distance": 635.9084314965876,
+      "altitude_diff": 245
+    },
+    {
+      "source": "Patichaur",
+      "target": "23DR019",
+      "distance": 561.7814704102811,
+      "altitude_diff": 333
+    },
+    {
+      "source": "Bhairabkunda Road",
+      "target": "Kyansing",
+      "distance": 620.3875454741761,
+      "altitude_diff": 1242
+    },
+    {
+      "source": "Bhairabkunda Road",
+      "target": "Bhotekoshi-01",
+      "distance": 551.9191358644061,
+      "altitude_diff": 135
+    },
+    {
+      "source": "Bhairabkunda Road",
+      "target": "Bagaam",
+      "distance": 382.6311920967462,
+      "altitude_diff": 1075
+    },
+    {
+      "source": "Bhairabkunda Road",
+      "target": "Bhairab kunda",
+      "distance": 294.52801033453795,
+      "altitude_diff": 258
+    },
+    {
+      "source": "Bhairabkunda Road",
+      "target": "Tasithan",
+      "distance": 746.0836434194445,
+      "altitude_diff": 924
+    },
+    {
+      "source": "Bhotekoshi-04",
+      "target": "Namtan",
+      "distance": 516.9904671473117,
+      "altitude_diff": 11
+    }
+  ]
+}
