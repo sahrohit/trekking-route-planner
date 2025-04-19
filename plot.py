@@ -106,11 +106,11 @@ def plot_map(nodes, edges, path_data, output_filename=None):
     for node in nodes.values():
         ax.plot(node["lon"], node["lat"], "ko", markersize=2)
 
-    # Define colors for different algorithms
-    algorithm_colors = {
-        "greedy": "red",
-        "divide_and_conquer": "blue",
-        "dynamic_programming": "green",
+    # Define colors and line styles for different algorithms
+    algorithm_styles = {
+        "greedy": {"color": "red", "linestyle": "-."},
+        "divide_and_conquer": {"color": "blue", "linestyle": "--"},
+        "dynamic_programming": {"color": "green", "linestyle": "-"},
     }
 
     # Create legend handles
@@ -123,9 +123,11 @@ def plot_map(nodes, edges, path_data, output_filename=None):
         if not nodes_data:
             continue
 
-        color = algorithm_colors.get(algorithm, "purple")
+        style = algorithm_styles.get(algorithm, {"color": "purple", "linestyle": ":"})
         legend_handles.append(
-            mpatches.Patch(color=color, label=algorithm.replace("_", " ").title())
+            mpatches.Patch(
+                color=style["color"], label=algorithm.replace("_", " ").title()
+            )
         )
 
         # Extract coordinates and connect the points
@@ -133,14 +135,21 @@ def plot_map(nodes, edges, path_data, output_filename=None):
         for i in range(len(coords) - 1):
             lon1, lat1 = coords[i]
             lon2, lat2 = coords[i + 1]
-            ax.plot([lon1, lon2], [lat1, lat2], color=color, linewidth=2.5)
+            ax.plot(
+                [lon1, lon2],
+                [lat1, lat2],
+                color=style["color"],
+                linestyle=style["linestyle"],
+                linewidth=2.5,
+                alpha=0.8,  # Add transparency
+            )
 
         # Add markers for start and end points
         start_name, start_lon, start_lat = nodes_data[0]
         end_name, end_lon, end_lat = nodes_data[-1]
 
-        ax.plot(start_lon, start_lat, "o", color=color, markersize=8)
-        ax.plot(end_lon, end_lat, "*", color=color, markersize=12)
+        ax.plot(start_lon, start_lat, "o", color=style["color"], markersize=8)
+        ax.plot(end_lon, end_lat, "*", color=style["color"], markersize=12)
 
         # Label start and end points
         ax.annotate(

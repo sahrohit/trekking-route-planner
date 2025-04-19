@@ -1,5 +1,12 @@
 import csv
 
+# Constants for trekking parameters
+HOURS_PER_DAY = 6  # Person can trek 6 hours a day
+AVG_SPEED_MPS = 1  # Average trekking speed in meters per second
+MAX_DISTANCE_PER_DAY = (
+    HOURS_PER_DAY * 3600 * AVG_SPEED_MPS
+)  # Maximum distance in meters per day
+
 
 def load_nodes(filename):
     """
@@ -45,47 +52,135 @@ def load_edges(filename, nodes):
                 raise ValueError(f"Invalid numeric value in edges CSV: {e}")
             if source not in nodes or target not in nodes:
                 continue
-            edges.setdefault(source, []).append((target, dist, alt_diff))
-            edges.setdefault(target, []).append((source, dist, alt_diff))
+            # Only add edges that can be traversed in a day
+            if dist <= MAX_DISTANCE_PER_DAY:
+                edges.setdefault(source, []).append((target, dist, alt_diff))
+                edges.setdefault(target, []).append((source, dist, alt_diff))
     return edges
 
 
-def greedy_path(nodes, edges, start, end, max_days, weight=1e-5):
+def score_path(
+    path, nodes, imp_weight=0.4, alt_weight=0.4, days_weight=0.2, max_days=None
+):
     """
-    Greedy approach: at each step, choose the neighbor that maximizes
-    importance minus a penalty proportional to altitude change.
-    """
-    path = [start]
-    total_imp = nodes[start]["imp"]
-    total_alt = 0
-    current = start
-    days = 0
-    visited = {start}
+    Score a path based on three criteria:
+    1. Days used vs max days (maximize days used but stay within limit)
+    2. Average importance (maximize)
+    3. Total altitude change (minimize)
 
-    while current != end and days < max_days:
-        best = None
+    Returns a tuple of (score, days_used, avg_importance, alt_change)
+    """
+    if not path or len(path) < 2:
+        return -float("inf"), 0, 0, 0
+
+    # Calculate metrics
+    days_used = len(path) - 1
+    total_imp = sum(nodes[node]["imp"] for node in path)
+    avg_imp = total_imp / len(path)
+
+    # Calculate total altitude change (from sequential nodes in path)
+    total_alt = 0
+    for i in range(len(path) - 1):
+        alt1 = nodes[path[i]]["alt"]
+        alt2 = nodes[path[i + 1]]["alt"]
+        total_alt += abs(alt2 - alt1)
+
+    # Days score: maximize days used (within limit)
+    days_score = (
+        days_used / max_days if max_days and days_used <= max_days else -float("inf")
+    )
+
+    # Normalize altitude change (lower is better) - assume 1000m is a reference point
+    alt_penalty = total_alt / (days_used * 1000) if days_used > 0 else 0
+
+    # Combined score: maximize days used & importance, minimize altitude change
+    score = days_weight * days_score + imp_weight * avg_imp - alt_weight * alt_penalty
+
+    return score, days_used, avg_imp, total_alt
+
+
+def greedy_path(
+    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
+):
+    """
+    Greedy approach with backtracking: choose the neighbor that maximizes our combined score.
+    If we hit a dead end, backtrack and try the next best option.
+    """
+    # Stack to keep track of our decisions for backtracking
+    # Each entry is (node, [neighbors_to_try], visited_set)
+    decision_stack = [(start, edges.get(start, []).copy(), {start})]
+    path = [start]
+
+    while decision_stack and len(path) - 1 < max_days:
+        current, neighbors, visited = decision_stack[-1]
+
+        # Check if we've reached the destination
+        if current == end:
+            break
+
+        # Find the best unvisited neighbor
+        best_next = None
         best_score = float("-inf")
-        for nbr, dist, alt_diff in edges.get(current, []):
+        best_neighbor_info = None
+        remaining_neighbors = []
+
+        for neighbor_info in neighbors:
+            nbr, dist, alt_diff = neighbor_info
             if nbr in visited:
                 continue
-            score = nodes[nbr]["imp"] - weight * alt_diff
+
+            # Try this neighbor
+            trial_path = path + [nbr]
+            score, _, _, _ = score_path(
+                trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
+            )
+
             if score > best_score:
                 best_score = score
-                best = (nbr, alt_diff)
-        if not best:
-            break
-        nbr, alt_diff = best
-        path.append(nbr)
-        total_imp += nodes[nbr]["imp"]
-        total_alt += alt_diff
-        visited.add(nbr)
-        current = nbr
-        days += 1
+                best_next = nbr
+                best_neighbor_info = neighbor_info
 
-    return path, total_imp, total_alt
+            remaining_neighbors.append(neighbor_info)
+
+        # Remove the best neighbor from remaining options
+        if best_neighbor_info in remaining_neighbors:
+            remaining_neighbors.remove(best_neighbor_info)
+
+        # If we found a valid next step
+        if best_next:
+            # Update the current node's remaining neighbors
+            decision_stack[-1] = (current, remaining_neighbors, visited)
+
+            # Add the new node to our path
+            path.append(best_next)
+            new_visited = visited.copy()
+            new_visited.add(best_next)
+
+            # Push this decision to our stack
+            decision_stack.append(
+                (best_next, edges.get(best_next, []).copy(), new_visited)
+            )
+        else:
+            # No valid neighbors, need to backtrack
+            decision_stack.pop()  # Remove current dead-end node
+            if path:  # Make sure path isn't empty before popping
+                path.pop()  # Remove from path as well
+
+    # Calculate final metrics
+    if path and path[-1] == end:
+        score, days_used, avg_imp, total_alt = score_path(
+            path, nodes, imp_weight, alt_weight, days_weight, max_days
+        )
+        total_imp = sum(nodes[node]["imp"] for node in path)
+        return path, total_imp, total_alt
+    else:
+        # Couldn't reach destination within constraints
+        return [], 0, 0
 
 
-def dac_path(nodes, edges, start, end, max_days, weight=1e-5):
+def dac_path(
+    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
+):
     """
     Divide and conquer (brute-force) recursive search without memoization.
     """
@@ -93,32 +188,48 @@ def dac_path(nodes, edges, start, end, max_days, weight=1e-5):
     def recurse(node, days_left, visited):
         if days_left < 0:
             return None
+
+        # If we've reached the destination
         if node == end:
-            return ([end], nodes[end]["imp"], 0)
+            path = [end]
+            return path, nodes[end]["imp"], 0
 
         best_score = float("-inf")
         best_result = None
+
         for nbr, dist, alt_diff in edges.get(node, []):
             if nbr in visited:
                 continue
+
             result = recurse(nbr, days_left - 1, visited | {nbr})
             if result:
                 path_rec, imp_rec, alt_rec = result
+
+                # Calculate metrics for this path
+                trial_path = [node] + path_rec
+                score, _, _, _ = score_path(
+                    trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
+                )
+
                 total_imp = nodes[node]["imp"] + imp_rec
                 total_alt = alt_diff + alt_rec
-                score = total_imp - weight * total_alt
+
                 if score > best_score:
                     best_score = score
                     best_result = ([node] + path_rec, total_imp, total_alt)
+
         return best_result
 
     result = recurse(start, max_days, {start})
     return result if result else ([], 0, 0)
 
 
-def dp_path(nodes, edges, start, end, max_days, weight=1e-5):
+def dp_path(
+    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
+):
     """
     Dynamic programming with memoization over (node, days_left).
+    Optimizes for our three criteria.
     """
     memo = {}
 
@@ -127,22 +238,34 @@ def dp_path(nodes, edges, start, end, max_days, weight=1e-5):
         if key in memo:
             return memo[key]
 
-        if days_left == 0:
-            if node == end:
-                memo[key] = ([end], nodes[end]["imp"], 0)
-            else:
-                memo[key] = None
+        # Base case - at destination
+        if node == end:
+            memo[key] = ([end], nodes[end]["imp"], 0)
             return memo[key]
+
+        # Out of days
+        if days_left <= 0:
+            memo[key] = None
+            return None
 
         best_score = float("-inf")
         best_result = None
+
         for nbr, dist, alt_diff in edges.get(node, []):
             result = recurse(nbr, days_left - 1)
             if result:
                 path_rec, imp_rec, alt_rec = result
+
+                # Calculate total metrics
                 total_imp = nodes[node]["imp"] + imp_rec
                 total_alt = alt_diff + alt_rec
-                score = total_imp - weight * total_alt
+
+                # Calculate score for this path
+                trial_path = [node] + path_rec
+                score, _, _, _ = score_path(
+                    trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
+                )
+
                 if score > best_score:
                     best_score = score
                     best_result = ([node] + path_rec, total_imp, total_alt)
@@ -154,7 +277,6 @@ def dp_path(nodes, edges, start, end, max_days, weight=1e-5):
     return result if result else ([], 0, 0)
 
 
-# Remove this before submitting
 def write_results_to_csv(filename, results):
     """
     Write the path finding results to a CSV file.
@@ -167,21 +289,27 @@ def write_results_to_csv(filename, results):
             "algorithm",
             "path",
             "total_importance",
+            "average_importance",
             "total_altitude_change",
             "path_length",
+            "days_used",
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         # Write results for each algorithm
         for algorithm, (path, imp, alt) in results.items():
+            days_used = len(path) - 1  # Number of edges = number of days
+            avg_imp = imp / len(path) if len(path) > 0 else 0
             writer.writerow(
                 {
                     "algorithm": algorithm,
                     "path": ",".join(path),
                     "total_importance": f"{imp:.4f}",
+                    "average_importance": f"{avg_imp:.4f}",
                     "total_altitude_change": f"{alt:.2f}",
                     "path_length": len(path),
+                    "days_used": days_used,
                 }
             )
 
@@ -192,39 +320,51 @@ def main():
 
     start = input("Start node: ").strip()
     end = input("End node: ").strip()
-    days = int(input("Number of days: "))
+    max_days = int(input("Maximum number of days: "))
 
-    # Remove results before submitting
     # Dictionary to store results
     results = {}
 
     print("\nGreedy Approach:")
-    path, imp, alt = greedy_path(nodes, edges, start, end, days)
+    path, imp, alt = greedy_path(nodes, edges, start, end, max_days)
     results["greedy"] = (path, imp, alt)
+    # Calculate metrics for reporting
+    days_used = len(path) - 1 if len(path) > 1 else 0
+    avg_imp = imp / len(path) if len(path) > 0 else 0
     print(f"Path: {path}")
-    print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
+    print(f"Days used: {days_used}/{max_days}")
+    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
+    print(f"Total Altitude Change: {alt:.2f}")
 
     print("\nDivide & Conquer Approach:")
-    path, imp, alt = dac_path(nodes, edges, start, end, days)
+    path, imp, alt = dac_path(nodes, edges, start, end, max_days)
     results["divide_and_conquer"] = (path, imp, alt)
+    # Calculate metrics for reporting
+    days_used = len(path) - 1 if len(path) > 1 else 0
+    avg_imp = imp / len(path) if len(path) > 0 else 0
     print(f"Path: {path}")
-    print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
+    print(f"Days used: {days_used}/{max_days}")
+    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
+    print(f"Total Altitude Change: {alt:.2f}")
 
     print("\nDynamic Programming Approach:")
-    path, imp, alt = dp_path(nodes, edges, start, end, days)
+    path, imp, alt = dp_path(nodes, edges, start, end, max_days)
     results["dynamic_programming"] = (path, imp, alt)
+    # Calculate metrics for reporting
+    days_used = len(path) - 1 if len(path) > 1 else 0
+    avg_imp = imp / len(path) if len(path) > 0 else 0
     print(f"Path: {path}")
-    print(f"Total Importance: {imp:.4f}, Total Altitude Change: {alt:.2f}")
-
-    # Remove this before submitting
+    print(f"Days used: {days_used}/{max_days}")
+    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
+    print(f"Total Altitude Change: {alt:.2f}")
 
     # Write results to CSV
-    output_filename = f"results_{start}_to_{end}_{days}days.csv"
+    output_filename = f"results_{start}_to_{end}_{max_days}days.csv"
     write_results_to_csv(output_filename, results)
     print(f"\nResults written to {output_filename}")
 
     # Save the path data for plotting
-    path_data_filename = f"dataset/result/path_data_{start}_to_{end}_{days}days.csv"
+    path_data_filename = f"dataset/result/path_data_{start}_to_{end}_{max_days}days.csv"
     with open(path_data_filename, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(
