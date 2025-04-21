@@ -1,0 +1,4 @@
+algorithm,path,total_importance,average_importance,total_altitude_change,path_length,hours_used
+greedy,"Jiri Hospital,Jiri-02",0.0001,0.0001,1284.00,2,
+divide_and_conquer,"Jiri Hospital,Jiri-02,chautara,Gaurishankar-05,Soktuma,Jiri-01,Tershe,Khola Kharka,Tershe,Jiri-01,Soktuma,Gaurishankar-05,chautara,Jiri-02",0.4804,0.0343,5014.00,14,
+dynamic_programming,"Jiri Hospital,Jiri-02,chautara,Gaurishankar-05,Soktuma,Gaurishankar-05,chautara,Jiri-02",0.1069,0.0134,2122.00,8,

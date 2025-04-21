@@ -1,290 +1,384 @@
 import csv
+import heapq
+from math import inf
 
 # Constants for trekking parameters
-HOURS_PER_DAY = 6  # Person can trek 6 hours a day
-AVG_SPEED_MPS = 1  # Average trekking speed in meters per second
-MAX_DISTANCE_PER_DAY = (
-    HOURS_PER_DAY * 3600 * AVG_SPEED_MPS
-)  # Maximum distance in meters per day
+AVG_SPEED_MPS = 0.5  # average speed in meters per second
 
 
 def load_nodes(filename):
     """
-    Parse nodes.csv and return a dict mapping node names to their attributes.
+    Parse nodes.csv and return a dict mapping node names to attributes.
     Expects columns: name, latitude, longitude, altitude, importance.
     """
     nodes = {}
     with open(filename, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
+            name = row.get("name")
             try:
-                name = row["name"]
-                lat = float(row["latitude"])
-                lon = float(row["longitude"])
-                alt = float(row["altitude"])
-                imp = float(row["importance"])
-            except KeyError as e:
-                raise ValueError(f"Missing column in nodes CSV: {e}")
+                lat = float(row.get("latitude", 0))
+                lon = float(row.get("longitude", 0))
+                alt = float(row.get("altitude", 0))
+                imp = float(row.get("importance", 0))
             except ValueError as e:
-                raise ValueError(f"Invalid numeric value in nodes CSV: {e}")
+                raise ValueError(f"Invalid numeric in nodes CSV: {e}")
             nodes[name] = {"lat": lat, "lon": lon, "alt": alt, "imp": imp}
     return nodes
 
 
 def load_edges(filename, nodes):
     """
-    Parse edges.csv and build an undirected adjacency list.
-    Expects columns: source, target, distance, altitude_diff.
-    Filters out edges involving unknown nodes.
+    Parse edges.csv and return adjacency list: source->[(target, distance, alt_diff),...]
     """
     edges = {}
     with open(filename, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
+            source = row.get("source")
+            target = row.get("target")
             try:
-                source = row["source"]
-                target = row["target"]
-                dist = float(row["distance"])
-                alt_diff = abs(float(row["altitude_diff"]))
-            except KeyError as e:
-                raise ValueError(f"Missing column in edges CSV: {e}")
+                dist = float(row.get("distance", 0))
+                alt_diff = abs(float(row.get("altitude_diff", 0)))
             except ValueError as e:
-                raise ValueError(f"Invalid numeric value in edges CSV: {e}")
+                raise ValueError(f"Invalid numeric in edges CSV: {e}")
             if source not in nodes or target not in nodes:
                 continue
-            # Only add edges that can be traversed in a day
-            if dist <= MAX_DISTANCE_PER_DAY:
-                edges.setdefault(source, []).append((target, dist, alt_diff))
-                edges.setdefault(target, []).append((source, dist, alt_diff))
+            edges.setdefault(source, []).append((target, dist, alt_diff))
+            edges.setdefault(target, []).append((source, dist, alt_diff))
     return edges
 
 
+def compute_hours_used(path, edges):
+    """
+    Sum total hours required to traverse the given path.
+    """
+    total = 0.0
+    for i in range(len(path) - 1):
+        src, dst = path[i], path[i + 1]
+        dist = next((d for nbr, d, _ in edges.get(src, []) if nbr == dst), 0)
+        # time in hours
+        total += dist / (AVG_SPEED_MPS * 3600)
+    return total
+
+
+def build_itinerary(path, edges, max_hours):
+    """
+    Build list of legs deducting from max_hours and tracking hours left.
+    """
+    itinerary = []
+    hours_left = max_hours
+    for i in range(len(path) - 1):
+        src, dst = path[i], path[i + 1]
+        dist = next((d for nbr, d, _ in edges.get(src, []) if nbr == dst), 0)
+        time_h = dist / (AVG_SPEED_MPS * 3600)
+        hours_left_after = hours_left - time_h
+        itinerary.append(
+            {
+                "from": src,
+                "to": dst,
+                "distance": dist,
+                "time_hours": time_h,
+                "hours_left_after": hours_left_after,
+            }
+        )
+        hours_left = hours_left_after
+        if hours_left <= 0:
+            break
+    return itinerary
+
+
 def score_path(
-    path, nodes, imp_weight=0.4, alt_weight=0.4, days_weight=0.2, max_days=None
+    path,
+    nodes,
+    edges,
+    imp_weight=0.4,
+    alt_weight=0.4,
+    hours_weight=0.2,
+    max_hours=None,
 ):
     """
-    Score a path based on three criteria:
-    1. Days used vs max days (maximize days used but stay within limit)
-    2. Average importance (maximize)
-    3. Total altitude change (minimize)
-
-    Returns a tuple of (score, days_used, avg_importance, alt_change)
+    Score path by total importance, altitude change, and hours utilization.
     """
     if not path or len(path) < 2:
-        return -float("inf"), 0, 0, 0
-
-    # Calculate metrics
-    days_used = len(path) - 1
-    total_imp = sum(nodes[node]["imp"] for node in path)
+        return -float("inf"), 0.0, 0.0, 0.0
+    total_imp = sum(nodes[n]["imp"] for n in path)
     avg_imp = total_imp / len(path)
-
-    # Calculate total altitude change (from sequential nodes in path)
-    total_alt = 0
-    for i in range(len(path) - 1):
-        alt1 = nodes[path[i]]["alt"]
-        alt2 = nodes[path[i + 1]]["alt"]
-        total_alt += abs(alt2 - alt1)
-
-    # Days score: maximize days used (within limit)
-    days_score = (
-        days_used / max_days if max_days and days_used <= max_days else -float("inf")
+    total_alt = sum(
+        abs(nodes[path[i + 1]]["alt"] - nodes[path[i]]["alt"])
+        for i in range(len(path) - 1)
     )
-
-    # Normalize altitude change (lower is better) - assume 1000m is a reference point
-    alt_penalty = total_alt / (days_used * 1000) if days_used > 0 else 0
-
-    # Combined score: maximize days used & importance, minimize altitude change
-    score = days_weight * days_score + imp_weight * avg_imp - alt_weight * alt_penalty
-
-    return score, days_used, avg_imp, total_alt
+    used = compute_hours_used(path, edges)
+    # invalidate if exceeds
+    if max_hours is not None and used > max_hours:
+        return -float("inf"), used, avg_imp, total_alt
+    # normalized utilization
+    hours_score = used / max_hours if max_hours else 0
+    score = (
+        hours_weight * hours_score
+        + imp_weight * avg_imp
+        - alt_weight * (total_alt / (len(path) - 1) / 1000)
+    )
+    return score, used, avg_imp, total_alt
 
 
 def greedy_path(
-    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
+    nodes,
+    edges,
+    start,
+    end,
+    max_hours,
+    imp_weight=0.4,
+    alt_weight=0.4,
+    hours_weight=0.2,
 ):
     """
-    Greedy approach with backtracking: choose the neighbor that maximizes our combined score.
-    If we hit a dead end, backtrack and try the next best option.
+    Greedy backtracking: prefer neighbors maximizing score, under total hours budget.
     """
-    # Stack to keep track of our decisions for backtracking
-    # Each entry is (node, [neighbors_to_try], visited_set)
-    decision_stack = [(start, edges.get(start, []).copy(), {start})]
+    stack = [(start, edges.get(start, []).copy(), {start})]
     path = [start]
-
-    while decision_stack and len(path) - 1 < max_days:
-        current, neighbors, visited = decision_stack[-1]
-
-        # Check if we've reached the destination
-        if current == end:
+    while stack:
+        current, nbrs, visited = stack[-1]
+        used = compute_hours_used(path, edges)
+        if current == end or used >= max_hours:
             break
-
-        # Find the best unvisited neighbor
-        best_next = None
-        best_score = float("-inf")
-        best_neighbor_info = None
-        remaining_neighbors = []
-
-        for neighbor_info in neighbors:
-            nbr, dist, alt_diff = neighbor_info
+        best_score, best_nbr = float("-inf"), None
+        for nbr, dist, alt in nbrs:
             if nbr in visited:
                 continue
-
-            # Try this neighbor
-            trial_path = path + [nbr]
-            score, _, _, _ = score_path(
-                trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
+            trial = path + [nbr]
+            score, used_t, *_ = score_path(
+                trial, nodes, edges, imp_weight, alt_weight, hours_weight, max_hours
             )
-
             if score > best_score:
-                best_score = score
-                best_next = nbr
-                best_neighbor_info = neighbor_info
-
-            remaining_neighbors.append(neighbor_info)
-
-        # Remove the best neighbor from remaining options
-        if best_neighbor_info in remaining_neighbors:
-            remaining_neighbors.remove(best_neighbor_info)
-
-        # If we found a valid next step
-        if best_next:
-            # Update the current node's remaining neighbors
-            decision_stack[-1] = (current, remaining_neighbors, visited)
-
-            # Add the new node to our path
-            path.append(best_next)
-            new_visited = visited.copy()
-            new_visited.add(best_next)
-
-            # Push this decision to our stack
-            decision_stack.append(
-                (best_next, edges.get(best_next, []).copy(), new_visited)
-            )
+                best_score, best_nbr = score, nbr
+        if best_nbr:
+            # remove and go deeper
+            current_nbrs = [(x, y, z) for x, y, z in nbrs if x != best_nbr]
+            stack[-1] = (current, current_nbrs, visited)
+            path.append(best_nbr)
+            visited.add(best_nbr)
+            stack.append((best_nbr, edges.get(best_nbr, []).copy(), visited.copy()))
         else:
-            # No valid neighbors, need to backtrack
-            decision_stack.pop()  # Remove current dead-end node
-            if path:  # Make sure path isn't empty before popping
-                path.pop()  # Remove from path as well
-
-    # Calculate final metrics
+            stack.pop()
+            path.pop()
     if path and path[-1] == end:
-        score, days_used, avg_imp, total_alt = score_path(
-            path, nodes, imp_weight, alt_weight, days_weight, max_days
+        used = compute_hours_used(path, edges)
+        total_imp = sum(nodes[n]["imp"] for n in path)
+        total_alt = sum(
+            abs(nodes[path[i + 1]]["alt"] - nodes[path[i]]["alt"])
+            for i in range(len(path) - 1)
         )
-        total_imp = sum(nodes[node]["imp"] for node in path)
-        return path, total_imp, total_alt
-    else:
-        # Couldn't reach destination within constraints
-        return [], 0, 0
+        return path, total_imp, total_alt, build_itinerary(path, edges, max_hours)
+    return [], 0.0, 0.0, []
 
 
 def dac_path(
-    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
+    nodes,
+    edges,
+    start,
+    end,
+    max_hours,
+    imp_weight=0.4,  # ignored, kept for signature compatibility
+    alt_weight=0.4,  # ignored
+    hours_weight=0.2,  # ignored
 ):
     """
-    Divide and conquer (brute-force) recursive search without memoization.
+    Brute‑force all simple outbound paths, then return via shortest path.
+    Guarantees you start at `start`, visit end at least at the very end,
+    and never exceed max_hours (outbound + return).
+    Chooses path that lexicographically maximizes
+    (total_importance, outbound_node_count, total_hours_used).
     """
 
-    def recurse(node, days_left, visited):
-        if days_left < 0:
-            return None
+    # 1) Dijkstra from 'end' to get shortest‐return distances & reconstruct paths
+    dist_m = {n: inf for n in nodes}
+    prev = {}
+    dist_m[end] = 0
+    pq = [(0.0, end)]
+    while pq:
+        d_u, u = heapq.heappop(pq)
+        if d_u > dist_m[u]:
+            continue
+        for v, d_uv, _alt in edges.get(u, []):
+            nd = d_u + d_uv
+            if nd < dist_m[v]:
+                dist_m[v] = nd
+                prev[v] = u
+                heapq.heappush(pq, (nd, v))
 
-        # If we've reached the destination
-        if node == end:
-            path = [end]
-            return path, nodes[end]["imp"], 0
+    # Build return_path[u] = list of nodes [u,...,end] along that shortest route
+    return_path = {}
+    for u in nodes:
+        if dist_m[u] < inf:
+            path = [u]
+            while path[-1] != end:
+                path.append(prev[path[-1]])
+            return_path[u] = path
 
-        best_score = float("-inf")
-        best_result = None
+    best = None
+    best_key = None  # (total_imp, count, total_hours)
 
-        for nbr, dist, alt_diff in edges.get(node, []):
-            if nbr in visited:
+    # 2) DFS‐enumerate every simple outbound path from `start`
+    def dfs(path, visited):
+        nonlocal best, best_key
+        u = path[-1]
+
+        # At each node u, consider “stop outbound here + return to end”
+        if u in return_path:
+            hours_out = compute_hours_used(path, edges)
+            hours_ret = dist_m[u] / (AVG_SPEED_MPS * 3600)
+            total_h = hours_out + hours_ret
+
+            if total_h <= max_hours:
+                total_imp = sum(nodes[n]["imp"] for n in path)
+                count = len(path)
+                key = (total_imp, count, total_h)
+                if best_key is None or key > best_key:
+                    # build full round‑trip path
+                    full = path + return_path[u][1:]
+                    # compute altitude change over full path
+                    total_alt = sum(
+                        abs(nodes[full[i + 1]]["alt"] - nodes[full[i]]["alt"])
+                        for i in range(len(full) - 1)
+                    )
+                    best = (full, total_imp, total_alt)
+                    best_key = key
+
+        # Then try to extend outbound
+        for v, _, _ in edges.get(u, []):
+            if v in visited:
+                continue
+            visited.add(v)
+            path.append(v)
+            dfs(path, visited)
+            path.pop()
+            visited.remove(v)
+
+    dfs([start], {start})
+
+    if best:
+        full_path, imp, alt = best
+        return full_path, imp, alt, build_itinerary(full_path, edges, max_hours)
+
+    return [], 0.0, 0.0, []
+
+
+def dp_path(nodes, edges, start, end, max_hours):
+    """
+    Finds a simple path that:
+      - begins at `start`
+      - visits `end` at least once
+      - ends at `end` (via shortest available return)
+      - never exceeds max_hours total (outbound + return)
+      - lexicographically maximizes (importance, node_count, hours_used)
+    """
+
+    # --- Precompute shortest‐return paths from every node back to `end` ---
+    # Dijkstra on the undirected graph, weights = distance in meters
+    dist_m = {n: float("inf") for n in nodes}
+    prev = {}
+    dist_m[end] = 0
+    pq = [(0, end)]
+    while pq:
+        d_u, u = heapq.heappop(pq)
+        if d_u > dist_m[u]:
+            continue
+        for v, w, _ in edges.get(u, []):
+            nd = d_u + w
+            if nd < dist_m[v]:
+                dist_m[v] = nd
+                prev[v] = u
+                heapq.heappush(pq, (nd, v))
+
+    # rebuild return‐path lists
+    return_path = {}
+    for u in nodes:
+        if u == end or dist_m[u] < float("inf"):
+            path = [u]
+            while path[-1] != end:
+                path.append(prev[path[-1]])
+            return_path[u] = path
+
+    # helper: return‐time in hours from u back to end
+    def return_hours(u):
+        return dist_m[u] / (AVG_SPEED_MPS * 3600)
+
+    # --- DP recursion ---
+    # @lru_cache(maxsize=None)
+    def dfs(u, visited_tuple, seen_end):
+        visited = set(visited_tuple)
+        best = None
+        best_key = None  # (imp, count, total_hours)
+
+        # 1) Option to **stop here** (only if we've already hit end)
+        if seen_end:
+            rh = return_hours(u)
+            if rh <= max_hours:
+                imp_sum = nodes[u]["imp"]
+                cnt = 1
+                hours_wo = 0.0
+                total_h = hours_wo + rh
+                best = ([u], imp_sum, cnt, hours_wo)
+                best_key = (imp_sum, cnt, total_h)
+
+        # 2) Try every unvisited neighbor
+        for v, dist, _alt in edges.get(u, []):
+            if v in visited:
+                continue
+            edge_h = dist / (AVG_SPEED_MPS * 3600)
+            if edge_h > max_hours:
                 continue
 
-            result = recurse(nbr, days_left - 1, visited | {nbr})
-            if result:
-                path_rec, imp_rec, alt_rec = result
+            new_seen_end = seen_end or (v == end)
+            new_visited = tuple(sorted(visited | {v}))
+            sub = dfs(v, new_visited, new_seen_end)
+            if not sub:
+                continue
 
-                # Calculate metrics for this path
-                trial_path = [node] + path_rec
-                score, _, _, _ = score_path(
-                    trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
-                )
+            sub_path, sub_imp, sub_cnt, sub_hours_wo = sub
+            hours_wo = edge_h + sub_hours_wo
 
-                total_imp = nodes[node]["imp"] + imp_rec
-                total_alt = alt_diff + alt_rec
+            # ensure we can still return from the tail
+            tail = sub_path[-1]
+            rh = return_hours(tail)
+            total_h = hours_wo + rh
+            if total_h > max_hours:
+                continue
 
-                if score > best_score:
-                    best_score = score
-                    best_result = ([node] + path_rec, total_imp, total_alt)
+            imp_sum = nodes[u]["imp"] + sub_imp
+            cnt = 1 + sub_cnt
+            cand_key = (imp_sum, cnt, total_h)
+            if best is None or cand_key > best_key:
+                best = ([u] + sub_path, imp_sum, cnt, hours_wo)
+                best_key = cand_key
 
-        return best_result
+        return best
 
-    result = recurse(start, max_days, {start})
-    return result if result else ([], 0, 0)
+    # kick off: mark seen_end True if start==end
+    res = dfs(start, (start,), start == end)
+    if not res:
+        return [], 0.0, 0.0, []
 
+    path_wo_ret, total_imp, _, hours_wo = res
+    tail = path_wo_ret[-1]
 
-def dp_path(
-    nodes, edges, start, end, max_days, imp_weight=0.4, alt_weight=0.4, days_weight=0.2
-):
-    """
-    Dynamic programming with memoization over (node, days_left).
-    Optimizes for our three criteria.
-    """
-    memo = {}
+    # append the return‐segment
+    ret_seg = return_path.get(tail, [])
+    full_path = path_wo_ret + ret_seg[1:]  # skip duplicate tail
 
-    def recurse(node, days_left):
-        key = (node, days_left)
-        if key in memo:
-            return memo[key]
-
-        # Base case - at destination
-        if node == end:
-            memo[key] = ([end], nodes[end]["imp"], 0)
-            return memo[key]
-
-        # Out of days
-        if days_left <= 0:
-            memo[key] = None
-            return None
-
-        best_score = float("-inf")
-        best_result = None
-
-        for nbr, dist, alt_diff in edges.get(node, []):
-            result = recurse(nbr, days_left - 1)
-            if result:
-                path_rec, imp_rec, alt_rec = result
-
-                # Calculate total metrics
-                total_imp = nodes[node]["imp"] + imp_rec
-                total_alt = alt_diff + alt_rec
-
-                # Calculate score for this path
-                trial_path = [node] + path_rec
-                score, _, _, _ = score_path(
-                    trial_path, nodes, imp_weight, alt_weight, days_weight, max_days
-                )
-
-                if score > best_score:
-                    best_score = score
-                    best_result = ([node] + path_rec, total_imp, total_alt)
-
-        memo[key] = best_result
-        return best_result
-
-    result = recurse(start, max_days)
-    return result if result else ([], 0, 0)
+    # compute altitude change on full_path
+    total_alt = sum(
+        abs(nodes[full_path[i + 1]]["alt"] - nodes[full_path[i]]["alt"])
+        for i in range(len(full_path) - 1)
+    )
+    itinerary = build_itinerary(full_path, edges, max_hours)
+    return full_path, total_imp, total_alt, itinerary
 
 
 def write_results_to_csv(filename, results):
-    """
-    Write the path finding results to a CSV file.
-    Results should be a dictionary with algorithm names as keys and
-    (path, importance, altitude_change) tuples as values.
-    """
+    """Write summary results to CSV including hours used."""
     with open(filename, "w", newline="") as csvfile:
-        # Write header row
         fieldnames = [
             "algorithm",
             "path",
@@ -292,24 +386,24 @@ def write_results_to_csv(filename, results):
             "average_importance",
             "total_altitude_change",
             "path_length",
-            "days_used",
+            "hours_used",
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-
-        # Write results for each algorithm
-        for algorithm, (path, imp, alt) in results.items():
-            days_used = len(path) - 1  # Number of edges = number of days
-            avg_imp = imp / len(path) if len(path) > 0 else 0
+        for alg, (path, imp, alt, iti) in results.items():
+            # used = compute_hours_used(
+            #     path, results["dummy"] if False else edges
+            # )  # placeholder
+            avg_imp = imp / len(path) if path else 0
             writer.writerow(
                 {
-                    "algorithm": algorithm,
+                    "algorithm": alg,
                     "path": ",".join(path),
                     "total_importance": f"{imp:.4f}",
                     "average_importance": f"{avg_imp:.4f}",
                     "total_altitude_change": f"{alt:.2f}",
                     "path_length": len(path),
-                    "days_used": days_used,
+                    # "hours_used": f"{used:.2f}",
                 }
             )
 
@@ -317,75 +411,55 @@ def write_results_to_csv(filename, results):
 def main():
     nodes = load_nodes("dataset/nodes.csv")
     edges = load_edges("dataset/edges.csv", nodes)
-
     start = input("Start node: ").strip()
     end = input("End node: ").strip()
-    max_days = int(input("Maximum number of days: "))
+    max_hours = float(input("Maximum number of hours: "))
 
-    # Dictionary to store results
     results = {}
+    # Greedy
+    path, imp, alt, iti = greedy_path(nodes, edges, start, end, max_hours)
+    results["greedy"] = (path, imp, alt, iti)
 
-    print("\nGreedy Approach:")
-    path, imp, alt = greedy_path(nodes, edges, start, end, max_days)
-    results["greedy"] = (path, imp, alt)
-    # Calculate metrics for reporting
-    days_used = len(path) - 1 if len(path) > 1 else 0
-    avg_imp = imp / len(path) if len(path) > 0 else 0
-    print(f"Path: {path}")
-    print(f"Days used: {days_used}/{max_days}")
-    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
-    print(f"Total Altitude Change: {alt:.2f}")
+    # Divide & Conquer
+    path, imp, alt, iti = dac_path(nodes, edges, start, end, max_hours)
+    results["divide_and_conquer"] = (path, imp, alt, iti)
 
-    print("\nDivide & Conquer Approach:")
-    path, imp, alt = dac_path(nodes, edges, start, end, max_days)
-    results["divide_and_conquer"] = (path, imp, alt)
-    # Calculate metrics for reporting
-    days_used = len(path) - 1 if len(path) > 1 else 0
-    avg_imp = imp / len(path) if len(path) > 0 else 0
-    print(f"Path: {path}")
-    print(f"Days used: {days_used}/{max_days}")
-    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
-    print(f"Total Altitude Change: {alt:.2f}")
+    # Dynamic Programming
+    path, imp, alt, iti = dp_path(nodes, edges, start, end, max_hours)
+    results["dynamic_programming"] = (path, imp, alt, iti)
 
-    print("\nDynamic Programming Approach:")
-    path, imp, alt = dp_path(nodes, edges, start, end, max_days)
-    results["dynamic_programming"] = (path, imp, alt)
-    # Calculate metrics for reporting
-    days_used = len(path) - 1 if len(path) > 1 else 0
-    avg_imp = imp / len(path) if len(path) > 0 else 0
-    print(f"Path: {path}")
-    print(f"Days used: {days_used}/{max_days}")
-    print(f"Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
-    print(f"Total Altitude Change: {alt:.2f}")
+    # Print and save
+    for name, (path, imp, alt, iti) in results.items():
+        used = compute_hours_used(path, edges)
+        avg_imp = imp / len(path) if path else 0
+        print(f"\n{name.replace('_', ' ').title()}:")
+        print(f" Path: {path}")
+        print(f" Hours used: {used:.2f}/{max_hours}")
+        print(f" Total Importance: {imp:.4f}, Average Importance: {avg_imp:.4f}")
+        print(f" Total Altitude Change: {alt:.2f}")
+        print(" Itinerary:")
+        for leg in iti:
+            print(
+                f"  {leg['from']} -> {leg['to']} | Distance: {leg['distance']:.2f} m, Time: {leg['time_hours']:.2f} h, Hours left: {leg['hours_left_after']:.2f}"
+            )
 
-    # Write results to CSV
-    output_filename = f"results_{start}_to_{end}_{max_days}days.csv"
-    write_results_to_csv(output_filename, results)
-    print(f"\nResults written to {output_filename}")
+    output_file = f"results_{start}_to_{end}_{int(max_hours)}hours.csv"
+    write_results_to_csv(output_file, results)
+    print(f"\nResults written to {output_file}")
 
-    # Save the path data for plotting
-    path_data_filename = f"dataset/result/path_data_{start}_to_{end}_{max_days}days.csv"
-    with open(path_data_filename, "w", newline="") as csvfile:
+    path_data_file = (
+        f"dataset/result/path_data_{start}_to_{end}_{int(max_hours)}hours.csv"
+    )
+    with open(path_data_file, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(
             ["algorithm", "node", "latitude", "longitude", "altitude", "importance"]
         )
-
-        for algorithm, (path, imp, alt) in results.items():
-            for node_name in path:
-                node_data = nodes[node_name]
-                writer.writerow(
-                    [
-                        algorithm,
-                        node_name,
-                        node_data["lat"],
-                        node_data["lon"],
-                        node_data["alt"],
-                        node_data["imp"],
-                    ]
-                )
-
-    print(f"Path data for plotting written to {path_data_filename}")
+        for alg, (path, _, _, _) in results.items():
+            for node in path:
+                nd = nodes[node]
+                writer.writerow([alg, node, nd["lat"], nd["lon"], nd["alt"], nd["imp"]])
+    print(f"Path data for plotting written to {path_data_file}")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,4 @@
+algorithm,path,total_importance,average_importance,total_altitude_change,path_length,hours_used
+greedy,"Jiri Hospital,Jiri-02",0.0001,0.0001,1284.00,2,
+divide_and_conquer,"Jiri Hospital,Jiri-02",0.0001,0.0001,1284.00,2,
+dynamic_programming,"Jiri Hospital,Jiri-02",0.0001,0.0001,1284.00,2,
