@@ -179,9 +179,6 @@ def dac_path(
     start,
     end,
     max_hours,
-    imp_weight=0.4,  # ignored, kept for signature compatibility
-    alt_weight=0.4,  # ignored
-    hours_weight=0.2,  # ignored
 ):
     """
     Brute‑force all simple outbound paths, then return via shortest path.
@@ -413,6 +410,7 @@ def main():
     edges = load_edges("dataset/edges.csv", nodes)
     start = input("Start node: ").strip()
     end = input("End node: ").strip()
+
     max_hours = float(input("Maximum number of hours: "))
 
     results = {}
